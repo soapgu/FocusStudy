@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -25,12 +26,25 @@ namespace FocusStudy
     public partial class MainWindow : Window
     {
         private static readonly string uiautomatorErrorMessage = "ERROR: could not get idle state.";
+        private static readonly string hitX = ConfigurationManager.AppSettings["hitX"];
+        private static readonly string hitY = ConfigurationManager.AppSettings["hitY"];
         private DispatcherTimer dispatcherTimer;
         private bool run = false;
+        private int tapX = 540;
+        private int tapY = 1315;
 
         public MainWindow()
         {
             InitializeComponent();
+            int x, y;
+            if (int.TryParse(hitX, out x)) 
+            {
+                this.tapX = x;
+            }
+            if (int.TryParse(hitY, out y))
+            {
+                this.tapY = y;
+            }
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(5);
             dispatcherTimer.Tick += DispatcherTimer_Tick;
@@ -46,8 +60,8 @@ namespace FocusStudy
                 String message;
                 if (response == uiautomatorErrorMessage)
                 {
-                    TapScreen(540, 1315);
-                    TapScreen(540, 1315);
+                    TapScreen(tapX, tapY);
+                    TapScreen(tapX, tapY);
                     message = "已完成一次签到";
                 }
                 else
