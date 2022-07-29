@@ -28,10 +28,13 @@ namespace FocusStudy
         private static readonly string uiautomatorErrorMessage = "ERROR: could not get idle state.";
         private static readonly string hitX = ConfigurationManager.AppSettings["hitX"];
         private static readonly string hitY = ConfigurationManager.AppSettings["hitY"];
+        private static readonly int randomDiff = 10;
+        private static readonly int tryConout = 5;
         private DispatcherTimer dispatcherTimer;
         private bool run = false;
         private int tapX = 540;
         private int tapY = 1315;
+        private Random random = new Random();
 
         public MainWindow()
         {
@@ -60,8 +63,7 @@ namespace FocusStudy
                 String message;
                 if (response == uiautomatorErrorMessage)
                 {
-                    TapScreen(tapX, tapY);
-                    TapScreen(tapX, tapY);
+                    await TrySign();
                     message = "已完成一次签到";
                 }
                 else
@@ -70,6 +72,15 @@ namespace FocusStudy
                 }
                 WriteLog( message );
                 this.dispatcherTimer.Start();
+            }
+        }
+
+        private async Task TrySign()
+        {
+            for( int i=0;i< tryConout; i++) 
+            {
+                TapScreen(tapX + this.random.Next(-randomDiff, randomDiff), tapY + this.random.Next(-randomDiff, randomDiff));
+                await Task.Delay(100);
             }
         }
 
@@ -94,7 +105,7 @@ namespace FocusStudy
 
         private void WriteLog( String line )
         {
-            if( this.lab_Message.Text.Length > 200)
+            if( this.lab_Message.Text.Length > 400)
             {
                 this.lab_Message.Text = string.Empty;
             }
