@@ -36,7 +36,7 @@
 # For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
 # refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
-name: .NET Core Desktop
+name: .NET Build File
 
 on:
   workflow_dispatch:
@@ -69,15 +69,15 @@ jobs:
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+      run: msbuild $env:Solution_Name /t:Restore /p:Configuration="Release"
       env:
         Configuration: ${{ matrix.configuration }}
 
     - name: Build solution
-      run: msbuild $env:Solution_Name /t:Build /p:Configuration=$env:Configuration
+      run: msbuild $env:Solution_Name /t:Build /p:Configuration="Release"
       
     - name: Zip the Build
-      run: zip -r release.zip /bin/$env:Configuration/
+      run: zip -r release.zip /bin/Release/
       
     - uses: actions/upload-artifact@v3
       with:
