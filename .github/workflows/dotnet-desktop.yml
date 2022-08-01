@@ -77,7 +77,7 @@ jobs:
       run: msbuild $env:Solution_Name /t:Build /p:Configuration="Release"
       
     - name: Zip the Build
-      run: zip -r release.zip /bin/Release/
+      run: Compress-Archive ./bin/Release/ ./release.zip #zip -r release.zip /bin/Release/
       
     - uses: actions/upload-artifact@v3
       with:
