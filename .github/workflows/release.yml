@@ -42,7 +42,7 @@ jobs:
       run: msbuild $env:Solution_Name /t:Build /p:Configuration="Release"
       
     - name: Zip the Build
-      run: Compress-Archive -Path ./bin/$env:Configuration/ ./release.zip 
+      run: Compress-Archive -Path ./bin/Release/*.* ./release.zip
       
     - name: Create Release
       id: create_release
