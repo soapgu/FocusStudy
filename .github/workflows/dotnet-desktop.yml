@@ -76,8 +76,4 @@ jobs:
     - name: Build solution
       run: msbuild $env:Solution_Name /t:Build /p:Configuration="Release"
       
-    - uses: actions/upload-artifact@v3
-      with:
-        name: build-artifact
-        path: ./bin/Release/
         
